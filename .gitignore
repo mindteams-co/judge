@@ -1,0 +1,6 @@
+.idea
+.gitsecret/keys/random_seed
+!*.secret
+backend/config/.env
+__pycache__/
+*.pyc

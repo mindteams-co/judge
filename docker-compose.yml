@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      args:
+        - DJANGO_ENV=development
+    restart: unless-stopped
+    env_file:
+      - ./backend/config/.env
+    volumes:
+      - ./backend:/backend
+      - static-files:/backend/src/static
+    depends_on:
+      - database
+    tty: true
+    stdin_open: true
+
+  database:
+    image: postgres:11.1
+    container_name: judge_db
+    env_file:
+      - ./backend/config/.env
+    restart: unless-stopped
+
+  nginx:
+    restart: unless-stopped
+    build:
+      context: ./nginx
+      args:
+        NGINX_CONFIG: nginx.dev.conf
+    depends_on:
+      - backend
+    ports:
+      - 8000:8000
+    volumes:
+      - static-files:/static
+
+volumes:
+  static-files:
