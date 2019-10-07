@@ -9,6 +9,7 @@ from competition.serializers import (
     SubmissionSerializer,
     SubmissionReadOnlySerializer,
 )
+from competition.services import Scorer
 
 
 class CompetitionViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -29,6 +30,11 @@ class CompetitionSubmissionViewSet(mixins.CreateModelMixin, viewsets.GenericView
 
     def get_serializer_context(self):
         return {"competition": self.competition, **super().get_serializer_context()}
+
+    def perform_create(self, serializer):
+        submission = serializer.save()
+        # TODO: RunScorer(submission)
+        sc = Scorer(submission).calculate_submission_result()
 
 
 class CompetitionBestSubmissionsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):

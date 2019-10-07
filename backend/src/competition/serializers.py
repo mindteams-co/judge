@@ -15,13 +15,17 @@ class SubmissionSerializer(serializers.ModelSerializer):
         model = Submission
         fields = ["id", "team", "file"]
 
+    def validate(self, attrs):
+        # TODO: CSVValidator(CompetitionId, CSVFile)
+        # TODO: Max 1 submission na 15 minut
+        return super().validate(attrs)
+
     def create(self, validated_data):
         submission = Submission.objects.create(
             competition=self.context["competition"],
             status=Submission.PENDING,
             **validated_data
         )
-        # check_format(Submission) If not csv -> Status rejected and return submission else: celery_process(submission) and return submission
         return submission
 
 

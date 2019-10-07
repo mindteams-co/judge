@@ -40,6 +40,9 @@ class SubmissionTestCase(test.APITestCase):
     def test_only_team_member_can_send_a_submission(self):
         ...
 
+    def test_team_can_send_one_submission_within_15_minutes(self):
+        ...
+
 
 class CompetitionBestSubmissionsTestCase(test.APITestCase):
     @classmethod
