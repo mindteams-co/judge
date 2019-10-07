@@ -7,7 +7,7 @@ from competition.models import Competition, Submission
 from competition.serializers import (
     CompetitionSerializer,
     SubmissionSerializer,
-    SubmissionScoreSerializer,
+    SubmissionReadOnlySerializer,
 )
 
 
@@ -28,11 +28,11 @@ class CompetitionSubmissionViewSet(mixins.CreateModelMixin, viewsets.GenericView
         return Submission.objects.filter(competition=self.competition)
 
     def get_serializer_context(self):
-        return {"competition": self.competition}
+        return {"competition": self.competition, **super().get_serializer_context()}
 
 
 class CompetitionBestSubmissionsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    serializer_class = SubmissionScoreSerializer
+    serializer_class = SubmissionReadOnlySerializer
 
     @cached_property
     def competition(self):

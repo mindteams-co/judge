@@ -27,7 +27,7 @@ class SubmissionTestCase(test.APITestCase):
             competition=cls.competition, team=cls.team, file__data=b"CSV FILE"
         )
         cls.post_submission_url = reverse(
-            "competition-submission-list", kwargs={"competition_pk": cls.competition.pk}
+            "competition-submission-list", args=[cls.competition.pk]
         )
 
     def test_sending_submission_for_a_competition(self):

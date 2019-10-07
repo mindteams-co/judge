@@ -25,7 +25,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
         return submission
 
 
-class SubmissionScoreSerializer(serializers.ModelSerializer):
+class SubmissionReadOnlySerializer(serializers.ModelSerializer):
     team = TeamSerializer()
     entries = serializers.ReadOnlyField(source="get_entries")
 

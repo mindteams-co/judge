@@ -2,6 +2,7 @@ import factory
 from django.urls import reverse
 from rest_framework import test, status
 
+from competition.factories import CompetitionFactory, SubmissionFactory
 from team.factories import TeamFactory
 from team.models import Team
 
@@ -30,8 +31,17 @@ class TestTeamRegistration(test.APITestCase):
 
 
 class TestTeamSubmissions(test.APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.team = TeamFactory()
+        cls.team_submissions_url = reverse("team-submission-list", args=[cls.team.pk])
+        SubmissionFactory.create(team=cls.team)
+
     def test_team_member_gets_team_submissions(self):
-        ...
+        response = self.client.get(self.team_submissions_url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
 
     def test_only_team_member_can_gets_team_submissions(self):
         ...
