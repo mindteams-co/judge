@@ -18,7 +18,9 @@ class TestTeamRegistration(test.APITestCase):
         response = self.client.post(self.team_register_url, data=self.registration_data)
 
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
-        self.assertTrue(Team.objects.filter(email=self.registration_data["email"]).exists())
+        self.assertTrue(
+            Team.objects.filter(email=self.registration_data["email"]).exists()
+        )
 
     def test_register_team_with_team_name_longer_than_32_chars(self):
         self.registration_data["name"] = "".join("a" for _ in range(33))
