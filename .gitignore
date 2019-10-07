@@ -2,5 +2,7 @@
 .gitsecret/keys/random_seed
 !*.secret
 backend/config/.env
+backend/src/static
+backend/src/media
 __pycache__/
 *.pyc

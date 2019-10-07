@@ -15,8 +15,29 @@ services:
       - static-files:/backend/src/static
     depends_on:
       - database
+      - redis
     tty: true
     stdin_open: true
+
+  redis:
+    container_name: judge_redis
+    image: redis:4
+    restart: always
+
+  celery:
+    build:
+      context: ./backend
+      args:
+        - DJANGO_ENV=development
+    entrypoint: bash -c "cd src; celery -A judge worker -l info"
+    env_file:
+      - ./backend/config/.env
+    volumes:
+      - ./backend:/backend
+      - media-files:/backend/src/media
+    depends_on:
+      - database
+      - redis
 
   database:
     image: postgres:11.1

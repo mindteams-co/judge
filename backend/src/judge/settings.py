@@ -23,10 +23,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "django_extensions",
+
     "team",
     "competition",
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ["django_extensions"]
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
@@ -90,6 +93,18 @@ DATABASES = {
         "PORT": os.environ["POSTGRES_PORT"],
     }
 }
+
+# Redis
+REDIS_PORT = 6379
+REDIS_DB = 0
+REDIS_HOST = os.environ["REDIS_HOST"]
+
+# Celery application definition
+CELERY_BROKER_URL = "redis://judge_redis:6379"
+CELERY_RESULT_BACKEND = "redis://judge_redis:6379"
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TASK_SERIALIZER = "json"
 
 
 # Password validation

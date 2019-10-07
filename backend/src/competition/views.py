@@ -10,6 +10,7 @@ from competition.serializers import (
     SubmissionReadOnlySerializer,
 )
 from competition.services import Scorer
+from competition.tasks import hello
 
 
 class CompetitionViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -34,6 +35,7 @@ class CompetitionSubmissionViewSet(mixins.CreateModelMixin, viewsets.GenericView
     def perform_create(self, serializer):
         submission = serializer.save()
         # TODO: RunScorer(submission)
+        hello.delay()
         sc = Scorer(submission).calculate_submission_result()
 
 
