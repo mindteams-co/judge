@@ -43,5 +43,5 @@ class TestTeamSubmissions(test.APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
 
-    def test_only_team_member_can_gets_team_submissions(self):
+    def test_only_team_member_can_get_team_submissions(self):
         ...

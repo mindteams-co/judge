@@ -1,9 +1,10 @@
-from time import sleep
-
+from competition.models import Submission
+from competition.services import Scorer
 from judge.celery import app
 
 
 @app.task
-def hello():
-    sleep(8)
-    print("Hello there!")
+def calculate_submission(submission_id):
+    submission = Submission.objects.get(id=submission_id)
+    submission.score = Scorer(submission).calculate_submission_result()
+    submission.save()

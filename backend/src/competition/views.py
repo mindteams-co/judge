@@ -9,8 +9,7 @@ from competition.serializers import (
     SubmissionSerializer,
     SubmissionReadOnlySerializer,
 )
-from competition.services import Scorer
-from competition.tasks import hello
+from competition.tasks import calculate_submission
 
 
 class CompetitionViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -34,9 +33,7 @@ class CompetitionSubmissionViewSet(mixins.CreateModelMixin, viewsets.GenericView
 
     def perform_create(self, serializer):
         submission = serializer.save()
-        # TODO: RunScorer(submission)
-        hello.delay()
-        sc = Scorer(submission).calculate_submission_result()
+        calculate_submission.delay(submission.id)
 
 
 class CompetitionBestSubmissionsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -47,13 +44,14 @@ class CompetitionBestSubmissionsViewSet(mixins.ListModelMixin, viewsets.GenericV
         return get_object_or_404(Competition, pk=self.kwargs["competition_pk"])
 
     def get_queryset(self):
+        # TODO: Move to custom queryset
         teams = (
-            Submission.objects.filter(competition=self.competition)
+            Submission.objects.filter(competition=self.competition, score__isnull=False)
             .values_list("team", flat=True)
             .distinct()
         )
         highest_scores = [
-            Submission.objects.filter(team=team, competition=self.competition)
+            Submission.objects.filter(team=team, competition=self.competition, score__isnull=False)
             .order_by("-score")
             .first()
             for team in teams
