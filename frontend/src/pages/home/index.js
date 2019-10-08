@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout } from 'antd';
-// import TabsComponent from '../../components/Tabs';
+import TabsComponent from '../../components/Tabs';
 
 import { LayoutStyled, HeaderStyled, LinkStyled, CardStyled, FooterStyled } from './style';
 
@@ -13,7 +13,9 @@ const HomePage = () => {
                 <LinkStyled to="/">skyhacks</LinkStyled>
             </HeaderStyled>
             <CardStyled>
-                <Content>{/* <TabsComponent /> */}</Content>
+                <Content>
+                    <TabsComponent />
+                </Content>
             </CardStyled>
             <FooterStyled>© 2019 skyhacks</FooterStyled>
         </LayoutStyled>
