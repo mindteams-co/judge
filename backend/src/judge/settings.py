@@ -12,6 +12,8 @@ DEBUG = True if os.environ["DJANGO_ENV"] == "development" else False
 
 ALLOWED_HOSTS = ["localhost"]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 
 # Application definition
 
@@ -50,6 +52,7 @@ JWT_AUTH = {
 }
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
