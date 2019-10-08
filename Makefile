@@ -26,3 +26,6 @@ start:
 
 bootstrap-dev:
 	sh -c "chmod +x $(SCRIPTS_DIR)/bootstrap-dev.sh; $(SCRIPTS_DIR)/bootstrap-dev.sh"
+
+run-fixtures:
+	docker-compose exec backend bash -c "cd src; ./manage.py runscript run_fixtures"
