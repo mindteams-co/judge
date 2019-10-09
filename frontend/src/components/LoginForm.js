@@ -3,6 +3,7 @@ import { Form } from 'antd';
 import styled from 'styled-components';
 import { Input } from '../common/Input';
 import { SubmitButton } from '../common/SubmitButton';
+import { Link } from 'react-router-dom';
 
 const FormWrapper = styled.div`
     width: 430px;
@@ -27,7 +28,7 @@ const LoginFormComponent = ({ form, ...props }) => {
                 <Input id="email" form={form} placeholder="E-mail" />
                 <Input id="password" type="password" form={form} placeholder="Password" />
                 <SubmitButton value="Log in" />
-                Or <a href="">register you team!</a>
+                Or <Link to="/submissions"> register your team!</Link>
             </Form>
         </FormWrapper>
     );
