@@ -28,7 +28,7 @@ const LoginFormComponent = ({ form, ...props }) => {
                 <Input id="email" form={form} placeholder="E-mail" />
                 <Input id="password" type="password" form={form} placeholder="Password" />
                 <SubmitButton value="Log in" />
-                Or <Link to="/submissions"> register your team!</Link>
+                Or <Link to="/register"> register your team!</Link>
             </Form>
         </FormWrapper>
     );
