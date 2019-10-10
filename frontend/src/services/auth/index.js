@@ -1,4 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
+import handleResponse from '../../common/handleResponse';
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
@@ -15,11 +16,14 @@ export class AuthServiceFactory {
     }
 
     login(email, password) {
-        return this.httpService.POST('obtain-token', { email, password }).then(user => {
-            this.storageService.setItem('currentUser', JSON.stringify(user));
-            currentUserSubject.next(user);
-            return user;
-        });
+        return this.httpService
+            .POST('obtain-token', { email, password })
+            .then(handleResponse)
+            .then(user => {
+                this.storageService.setItem('currentUser', JSON.stringify(user));
+                currentUserSubject.next(user);
+                return user;
+            });
     }
 
     logout() {
