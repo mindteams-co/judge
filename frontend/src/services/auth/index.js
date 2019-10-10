@@ -1,10 +1,30 @@
+import { BehaviorSubject } from 'rxjs';
+
+const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
+
 export class AuthServiceFactory {
-    constructor(apiBase, httpService) {
+    constructor(apiBase, httpService, storageService) {
         this.apiBase = apiBase;
         this.httpService = httpService;
+        this.storageService = new storageService();
+        this.currentUser = currentUserSubject.asObservable();
     }
+
+    currentUserValue() {
+        return currentUserSubject.value;
+    }
+
     login(email, password) {
-        return this.httpService.POST('obtain-token', { email, password });
+        return this.httpService.POST('obtain-token', { email, password }).then(user => {
+            this.storageService.setItem('currentUser', JSON.stringify(user));
+            currentUserSubject.next(user);
+            return user;
+        });
+    }
+
+    logout() {
+        sessionStorage.removeItem('currentUser');
+        currentUserSubject.next(null);
     }
 
     verifyToken(token) {

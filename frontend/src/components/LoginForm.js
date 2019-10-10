@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Input } from '../common/Input';
 import { SubmitButton } from '../common/SubmitButton';
 import { Link } from 'react-router-dom';
-import { HttpService } from '../services';
+import { AuthService, routingService } from '../services';
 
 const FormWrapper = styled.div`
     width: 430px;
@@ -13,23 +13,26 @@ const FormWrapper = styled.div`
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 `;
 
-const LoginFormComponent = ({ form, ...props }) => {
+const LoginFormComponent = ({ form, history, ...props }) => {
     const handleSubmit = event => {
         event.preventDefault();
-        console.log(
-            'BEKA: ',
-            HttpService.POST('obtain-token', { email: 'influ@test.test', password: '123qweasd' }).then(
-                res => console.log(res),
-            ),
-        );
 
-        form.validateFields((err, values) => {
+        form.validateFields((err, { email, password }) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                AuthService.login(email, password).then(
+                    user => {
+                        routingService.push('/');
+                    },
+                    error => {
+                        console.log(error);
+                    },
+                );
             }
         });
     };
-
+    if (AuthService.currentUserValue) {
+        routingService.push('/');
+    }
     return (
         <FormWrapper>
             <Form onSubmit={handleSubmit}>
