@@ -2,5 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import App from './App';
+import { Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const options = {
+    position: 'top right',
+    timeout: 3000,
+};
+
+ReactDOM.render(
+    <AlertProvider template={AlertTemplate} {...options}>
+        <App />
+    </AlertProvider>,
+    document.getElementById('root'),
+);

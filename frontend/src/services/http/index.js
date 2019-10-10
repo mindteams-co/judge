@@ -42,6 +42,6 @@ export class HttpServiceFactory {
         };
         const path = `${this.apiBase}/${url}/`;
 
-        return fetch(path, options).then(res => res.json());
+        return fetch(path, options);
     }
 }

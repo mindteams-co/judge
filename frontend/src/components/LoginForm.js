@@ -5,6 +5,8 @@ import { Input } from '../common/Input';
 import { SubmitButton } from '../common/SubmitButton';
 import { Link } from 'react-router-dom';
 import { AuthService, routingService } from '../services';
+import { showNotification } from '../common/showNotification';
+import { useAlert } from 'react-alert';
 
 const FormWrapper = styled.div`
     width: 430px;
@@ -14,23 +16,23 @@ const FormWrapper = styled.div`
 `;
 
 const LoginFormComponent = ({ form, history, ...props }) => {
+    const alert = useAlert();
+
     const handleSubmit = event => {
         event.preventDefault();
 
         form.validateFields((err, { email, password }) => {
             if (!err) {
-                AuthService.login(email, password).then(
-                    user => {
+                AuthService.login(email, password)
+                    .then(user => {
                         routingService.push('/');
-                    },
-                    error => {
-                        console.log(error);
-                    },
-                );
+                        return user;
+                    })
+                    .catch(err => showNotification({ message: err.nonFieldErrors[0], alert }));
             }
         });
     };
-    if (AuthService.currentUserValue) {
+    if (AuthService.currentUserValue()) {
         routingService.push('/');
     }
     return (

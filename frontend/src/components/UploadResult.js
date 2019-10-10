@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Card, Form, Button, Upload, Icon, Row, Col } from 'antd';
+import { AuthService } from '../services';
 
 const CardStyled = styled(Card)`
     margin-bottom: 15px;
@@ -17,33 +19,46 @@ const ColStyled = styled(Col)`
 `;
 
 const UploadResult = () => {
+    const [currentUser, setCurrentUser] = useState(null);
+
+    useEffect(() => {
+        AuthService.currentUser.subscribe(user => setCurrentUser(user));
+    }, []);
+
     return (
         <CardStyled>
-            <Form
-                onSubmit={e => {
-                    e.preventDefault();
-                }}
-            >
-                <RowStyled>
-                    <ColStyled>
-                        <Form.Item>
-                            <Upload name="CSV file" action="/upload.do" listType="file">
-                                <Button>
-                                    <Icon type="upload" />
-                                    Click to upload CSV
+            {currentUser ? (
+                <Form
+                    onSubmit={e => {
+                        e.preventDefault();
+                        console.log(e);
+                    }}
+                >
+                    <RowStyled>
+                        <ColStyled>
+                            <Form.Item>
+                                <Upload name="CSV file" action="/upload.do" listType="file">
+                                    <Button>
+                                        <Icon type="upload" />
+                                        Click to upload CSV
+                                    </Button>
+                                </Upload>
+                            </Form.Item>
+                        </ColStyled>
+                        <ColStyled>
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit">
+                                    Submit
                                 </Button>
-                            </Upload>
-                        </Form.Item>
-                    </ColStyled>
-                    <ColStyled>
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                Submit
-                            </Button>
-                        </Form.Item>
-                    </ColStyled>
-                </RowStyled>
-            </Form>
+                            </Form.Item>
+                        </ColStyled>
+                    </RowStyled>
+                </Form>
+            ) : (
+                <>
+                    Please <Link to="/login">log in</Link> to submit a solution
+                </>
+            )}
         </CardStyled>
     );
 };
