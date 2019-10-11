@@ -25,10 +25,10 @@ export class AuthServiceFactory {
             });
     }
 
-    logout() {
-        sessionStorage.removeItem('currentUser');
+    logout = () => {
+        this.storageService.removeItem('currentUser');
         currentUserSubject.next(null);
-    }
+    };
 
     verifyToken(token) {
         return this.httpService.POST('verify-token', token);

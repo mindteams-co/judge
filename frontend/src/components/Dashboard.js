@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from 'antd';
+import { Menu } from '../components/Menu';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -23,7 +24,10 @@ const Dashboard = ({ competitionId }) => {
     return (
         <CardStyled>
             {currentUser ? (
-                <UploadSubmissionForm competitionId={competitionId} user={currentUser} />
+                <>
+                    <UploadSubmissionForm competitionId={competitionId} user={currentUser} />
+                    <Menu />
+                </>
             ) : (
                 <>
                     Please <Link to="/login">log in</Link> to submit a solution
