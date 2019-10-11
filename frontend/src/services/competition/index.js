@@ -1,10 +1,10 @@
-export const competitionServiceFactory = (apiBase, fetch) => {
-    const getCompetitions = () => fetch(`${apiBase}/competitions`).then(res => res.json());
+export const competitionServiceFactory = httpService => {
+    const getCompetitions = () => httpService.GET('competitions').then(res => res.json());
 
-    const getCompetition = id => fetch(`${apiBase}/competitions/${id}`).then(res => res.json());
+    const getCompetition = id => httpService.GET(`competitions/${id}`).then(res => res.json());
 
     const getCompetitionScores = id =>
-        fetch(`${apiBase}/competitions/${id}/scores`).then(res => res.json());
+        httpService.GET(`competitions/${id}/scores`).then(res => res.json());
 
     return {
         getCompetition,

@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Form } from 'antd';
 import styled from 'styled-components';
-import { Input } from '../common/Input';
-import { SubmitButton } from '../common/SubmitButton';
+import PropTypes from 'prop-types';
+import { Input } from '../common/components/Input';
+import { SubmitButton } from '../common/components/SubmitButton';
 import { Link } from 'react-router-dom';
-import { AuthService, routingService } from '../services';
-import { showNotification } from '../common/showNotification';
+import { authService, routingService } from '../services';
+import { showNotification } from '../common/helpers/showNotification.js';
 import { useAlert } from 'react-alert';
 
 const FormWrapper = styled.div`
@@ -15,7 +16,7 @@ const FormWrapper = styled.div`
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 `;
 
-const LoginFormComponent = ({ form, history, ...props }) => {
+const LoginFormComponent = ({ form }) => {
     const alert = useAlert();
 
     const handleSubmit = event => {
@@ -23,7 +24,8 @@ const LoginFormComponent = ({ form, history, ...props }) => {
 
         form.validateFields((err, { email, password }) => {
             if (!err) {
-                AuthService.login(email, password)
+                authService
+                    .login(email, password)
                     .then(user => {
                         routingService.push('/');
                         return user;
@@ -32,9 +34,7 @@ const LoginFormComponent = ({ form, history, ...props }) => {
             }
         });
     };
-    if (AuthService.currentUserValue()) {
-        routingService.push('/');
-    }
+
     return (
         <FormWrapper>
             <Form onSubmit={handleSubmit}>
@@ -45,6 +45,10 @@ const LoginFormComponent = ({ form, history, ...props }) => {
             </Form>
         </FormWrapper>
     );
+};
+
+LoginFormComponent.propTypes = {
+    form: PropTypes.object.isRequired,
 };
 
 export const LoginForm = Form.create()(LoginFormComponent);

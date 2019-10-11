@@ -9,23 +9,21 @@ export const Input = ({
     required = true,
     disabled = false,
     ...props
-}) => {
-    return (
-        <Form.Item>
-            {props.form.getFieldDecorator(props.id, {
-                initialValue: props.initialValue,
-                rules: [{ required, message: props.message }],
-            })(
-                <AntdInput
-                    type={type}
-                    placeholder={placeholder || label}
-                    disabled={disabled}
-                    addonAfter={props.addonAfter}
-                />,
-            )}
-        </Form.Item>
-    );
-};
+}) => (
+    <Form.Item>
+        {props.form.getFieldDecorator(props.id, {
+            initialValue: props.initialValue,
+            rules: [{ required, message: props.message }],
+        })(
+            <AntdInput
+                type={type}
+                placeholder={placeholder || label}
+                disabled={disabled}
+                addonAfter={props.addonAfter}
+            />,
+        )}
+    </Form.Item>
+);
 
 Input.propTypes = {
     form: PropTypes.any,

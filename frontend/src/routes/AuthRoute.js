@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { AuthService } from '../services';
+import { authService } from '../services';
 
 const AuthRoute = ({ path, component }) => {
-    if (!AuthService.currentUserValue) {
+    if (!authService.currentUserValue) {
         return <Redirect to="/login" />;
     }
 

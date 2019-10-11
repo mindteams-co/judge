@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'antd';
+import PropTypes from 'prop-types';
 import { competitionService } from '../services';
-import { formatDate } from '../common/formatDate';
+import { formatDate } from '../common/helpers/formatDate.js';
 
 const columns = [
     {
@@ -44,6 +45,10 @@ const ScoreBoard = ({ id }) => {
     }));
 
     return <Table pagination={false} dataSource={dataSource} columns={columns} />;
+};
+
+ScoreBoard.propTypes = {
+    id: PropTypes.number.isRequired,
 };
 
 export default ScoreBoard;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Card, Form, Button, Upload, Icon, Row, Col } from 'antd';
-import { AuthService } from '../services';
+import { authService } from '../services';
 
 const CardStyled = styled(Card)`
     margin-bottom: 15px;
@@ -22,7 +22,9 @@ const UploadResult = () => {
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
-        AuthService.currentUser.subscribe(user => setCurrentUser(user));
+        const $user = authService.currentUser.subscribe(user => setCurrentUser(user));
+
+        return () => $user.unsubscribe();
     }, []);
 
     return (
