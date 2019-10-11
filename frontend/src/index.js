@@ -7,7 +7,7 @@ import AlertTemplate from 'react-alert-template-basic';
 
 const alertOptions = {
     position: 'top right',
-    timeout: 3000,
+    timeout: 4500,
 };
 
 ReactDOM.render(

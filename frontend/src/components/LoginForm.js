@@ -2,12 +2,12 @@ import * as React from 'react';
 import { Form } from 'antd';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { useAlert } from 'react-alert';
+import { authService, routingService } from '../services';
+import { showNotification } from '../common/helpers/showNotification';
 import { Input } from '../common/components/Input';
 import { SubmitButton } from '../common/components/SubmitButton';
-import { Link } from 'react-router-dom';
-import { authService, routingService } from '../services';
-import { showNotification } from '../common/helpers/showNotification.js';
-import { useAlert } from 'react-alert';
 
 const FormWrapper = styled.div`
     width: 430px;

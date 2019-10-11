@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Form, Button, Row, Col } from 'antd';
+import { useAlert } from 'react-alert';
 import { competitionService } from '../services';
 import decodeToken from '../common/decodeToken';
 import UploadSubmission from './UploadSubmission';
+import { showNotification } from '../common/helpers/showNotification';
 
 const RowStyled = styled(Row)`
     display: flex;
@@ -16,6 +18,8 @@ const ColStyled = styled(Col)`
 `;
 
 const UploadSubmissionForm = ({ competitionId, user }) => {
+    const alert = useAlert();
+
     const [currentFileList, setCurrentFileList] = useState([]);
 
     const handleOnSubmit = event => {
@@ -31,6 +35,12 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
             file: file.originFileObj,
         };
         competitionService.postCompetitionSubmission(competitionId, data);
+
+        showNotification({
+            message: 'A solution has been successfully submitted. You can check "my submissions" page.',
+            alert,
+        });
+        setCurrentFileList([]);
     };
 
     return (
