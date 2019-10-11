@@ -7,7 +7,6 @@ function handleResponse(response) {
             if ([401, 403].indexOf(response.status) !== -1) {
                 authService.logout();
             }
-
             return Promise.reject(data);
         }
         return data;

@@ -17,7 +17,7 @@ const TabsComponent = () => {
         <Tabs defaultActiveKey="1">
             {competitions.map(comp => (
                 <TabPane tab={comp.name} key={comp.id}>
-                    <UploadResult />
+                    <UploadResult competitionId={comp.id} />
                     <ScoreBoard id={comp.id} />
                 </TabPane>
             ))}

@@ -39,6 +39,6 @@ export class AuthServiceFactory {
     }
 
     registerUser(name, email, password) {
-        return this.httpService.POST('teams', { name, email, password });
+        return this.httpService.POST(`teams`, { name, email, password }).then(handleResponse);
     }
 }
