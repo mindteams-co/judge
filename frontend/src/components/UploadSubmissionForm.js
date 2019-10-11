@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { Form, Button, Row, Col } from 'antd';
 import { useAlert } from 'react-alert';
 import { competitionService } from '../services';
-import decodeToken from '../common/decodeToken';
 import UploadSubmission from './UploadSubmission';
 import { showNotification } from '../common/helpers/showNotification';
+import decodeToken from '../common/helpers/decodeToken';
 
 const RowStyled = styled(Row)`
     display: flex;

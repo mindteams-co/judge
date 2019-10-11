@@ -34,7 +34,7 @@ const ScoreBoard = ({ id }) => {
     const [competitionScores, setCompetitionScores] = useState([]);
 
     useEffect(() => {
-        competitionService.getCompetitionScores(id).then(res => setCompetitionScores(res));
+        competitionService.getCompetitionScores(id).then(setCompetitionScores);
     }, [id]);
 
     const dataSource = competitionScores.map(({ team, createdAt, ...rest }) => ({

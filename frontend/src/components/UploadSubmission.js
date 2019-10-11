@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon, Button, Upload } from 'antd';
 import PropTypes from 'prop-types';
-import { dummyUploadPhotoRequest } from '../common/dummyUploadPhotoRequest';
+import { dummyUploadPhotoRequest } from '../common/helpers/dummyUploadPhotoRequest';
 
 const UploadSubmission = ({ setCurrentFileList, currentFileList }) => {
     const handleOnChange = info => {
