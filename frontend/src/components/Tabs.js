@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs } from 'antd';
-import ScoreBoard from './ScoreBoard';
 import { competitionService } from '../services';
+import ScoreBoard from './ScoreBoard';
 import UploadResult from './UploadResult';
 
 const { TabPane } = Tabs;
@@ -10,7 +10,7 @@ const TabsComponent = () => {
     const [competitions, setCompetitions] = useState([]);
 
     useEffect(() => {
-        competitionService.getCompetitions().then(res => setCompetitions(res));
+        competitionService.getCompetitions().then(setCompetitions);
     }, []);
 
     return (
