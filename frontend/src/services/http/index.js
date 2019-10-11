@@ -1,6 +1,6 @@
 import { jwtToken } from '../../config/variables';
 
-const Methods = Object.freeze({
+export const Methods = Object.freeze({
     GET: 'GET',
     POST: 'POST',
     PUT: 'PUT',
@@ -39,6 +39,25 @@ export class HttpServiceFactory {
             method,
             headers,
             body: JSON.stringify(body),
+        };
+        const path = `${this.apiBase}/${url}/`;
+
+        return fetch(path, options);
+    }
+
+    makeRequestForm(method, url, body) {
+        const formData = new FormData();
+        Object.keys(body).forEach(fieldName => formData.append(fieldName, body[fieldName]));
+
+        const token = this.storageService.getItem(jwtToken);
+        const headers = {
+            ...(token && { Authorization: `JWT ${token}` }),
+        };
+
+        const options = {
+            method,
+            headers,
+            body: formData,
         };
         const path = `${this.apiBase}/${url}/`;
 
