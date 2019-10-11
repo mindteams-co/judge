@@ -22,7 +22,6 @@ const UploadResult = () => {
             <Form
                 onSubmit={e => {
                     e.preventDefault();
-                    console.log(e);
                 }}
             >
                 <RowStyled>
