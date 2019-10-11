@@ -4,8 +4,7 @@ import handleResponse from '../../common/helpers/handleResponse.js';
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
 export class AuthServiceFactory {
-    constructor(apiBase, httpService, storageService) {
-        this.apiBase = apiBase;
+    constructor(httpService, storageService) {
         this.httpService = httpService;
         this.storageService = new storageService();
         this.currentUser = currentUserSubject.asObservable();
@@ -40,6 +39,6 @@ export class AuthServiceFactory {
     }
 
     registerUser(name, email, password) {
-        return this.httpService.POST(`${this.apiBase}/teams`, { name, email, password });
+        return this.httpService.POST('teams', { name, email, password });
     }
 }

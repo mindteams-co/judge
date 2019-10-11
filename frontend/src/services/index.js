@@ -9,4 +9,4 @@ import { StorageService } from './storage';
 export const httpService = new HttpServiceFactory(apiBase, fetch, StorageService);
 export const competitionService = competitionServiceFactory(httpService);
 export const routingService = new RoutingService(history);
-export const authService = new AuthServiceFactory(apiBase, httpService, StorageService);
+export const authService = new AuthServiceFactory(httpService, StorageService);
