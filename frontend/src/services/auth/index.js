@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
-import handleResponse from '../../common/handleResponse';
+import handleResponse from '../../common/helpers/handleResponse.js';
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
@@ -32,11 +32,11 @@ export class AuthServiceFactory {
     }
 
     verifyToken(token) {
-        return this.httpService.POST('verify-token', { token });
+        return this.httpService.POST('verify-token', token);
     }
 
     refreshToken(token) {
-        return this.httpService.PATCH('refresh-token', { token });
+        return this.httpService.PATCH('refresh-token', token);
     }
 
     registerUser(name, email, password) {

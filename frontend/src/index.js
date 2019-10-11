@@ -5,13 +5,13 @@ import App from './App';
 import { Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
-const options = {
+const alertOptions = {
     position: 'top right',
     timeout: 3000,
 };
 
 ReactDOM.render(
-    <AlertProvider template={AlertTemplate} {...options}>
+    <AlertProvider template={AlertTemplate} {...alertOptions}>
         <App />
     </AlertProvider>,
     document.getElementById('root'),

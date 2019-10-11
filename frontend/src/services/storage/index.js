@@ -1,6 +1,10 @@
 export class StorageService {
     getItem(field) {
-        return localStorage.getItem(field);
+        try {
+            return localStorage.getItem(field);
+        } catch (error) {
+            return error;
+        }
     }
 
     setItem(field, data) {
