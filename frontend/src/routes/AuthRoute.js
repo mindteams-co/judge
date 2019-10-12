@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { authService } from '../services';
 
 const AuthRoute = ({ path, component }) =>
-    !authService.currentUserValue ? (
+    !authService.currentUserValue() ? (
         <Redirect to="/login" />
     ) : (
         <Route exact path={path} component={component} />
