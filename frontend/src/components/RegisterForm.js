@@ -27,7 +27,11 @@ const RegisterFormComponent = ({ form }) => {
                 authService
                     .registerUser(teamName, email, password)
                     .then(user => {
-                        showNotification({ message: 'Account has been created', alert });
+                        showNotification({
+                            message: 'Account has been created',
+                            alert,
+                            option: 'success',
+                        });
                         routingService.push('/login');
                         return user;
                     })

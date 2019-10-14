@@ -7,6 +7,7 @@ import { competitionService } from '../services';
 import UploadSubmission from './UploadSubmission';
 import { showNotification } from '../common/helpers/showNotification';
 import decodeToken from '../common/helpers/decodeToken';
+import handleResponse from '../common/helpers/handleResponse';
 
 const RowStyled = styled(Row)`
     display: flex;
@@ -22,7 +23,7 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
 
     const [currentFileList, setCurrentFileList] = useState([]);
 
-    const handleOnSubmit = event => {
+    const handleOnSubmit = async event => {
         event.preventDefault();
 
         if (currentFileList.length !== 1) return;
@@ -34,12 +35,19 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
             team: teamId,
             file: file.originFileObj,
         };
-        competitionService.postCompetitionSubmission(competitionId, data);
 
-        showNotification({
-            message: 'A solution has been successfully submitted. You can check "my submissions" page.',
-            alert,
-        });
+        try {
+            const response = await competitionService.postCompetitionSubmission(competitionId, data);
+            await handleResponse(response);
+            showNotification({
+                message:
+                    'A solution has been successfully submitted. You can check "my submissions" page.',
+                alert,
+                option: 'success',
+            });
+        } catch (err) {
+            showNotification({ message: err.nonFieldErrors[0], alert });
+        }
         setCurrentFileList([]);
     };
 

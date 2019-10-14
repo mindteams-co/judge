@@ -1,3 +1,6 @@
+from datetime import timedelta
+
+from django.utils import timezone
 from rest_framework import serializers
 
 from competition.models import Competition, Submission
@@ -15,9 +18,16 @@ class SubmissionSerializer(serializers.ModelSerializer):
         model = Submission
         fields = ["id", "team", "file"]
 
+    default_error_messages = {
+        "one_submission_every_15_minutes": "You can send one submission every 15 minutes."
+    }
+
     def validate(self, attrs):
         # TODO: CSVValidator(CompetitionId, CSVFile)
-        # TODO: Max 1 submission na 15 minut
+        last_submission = Submission.objects.filter(team=attrs['team']).order_by("-created_at").first()
+        if timezone.now() - timedelta(minutes=15) < last_submission.created_at:
+            self.fail("one_submission_every_15_minutes")
+
         return super().validate(attrs)
 
     def create(self, validated_data):

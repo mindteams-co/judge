@@ -10,7 +10,6 @@ export const competitionServiceFactory = httpService => {
 
     const postCompetitionSubmission = (id, data) =>
         httpService.makeRequestForm(Methods.POST, `competitions/${id}/submissions`, data);
-
     return {
         getCompetition,
         getCompetitions,
