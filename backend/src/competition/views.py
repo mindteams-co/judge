@@ -9,7 +9,8 @@ from competition.serializers import (
     SubmissionSerializer,
     SubmissionReadOnlySerializer,
 )
-from competition.tasks import calculate_submission
+from competition.services import SubmissionValidator
+from competition.tasks import validate_and_calculate_submission
 
 
 class CompetitionViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -33,7 +34,7 @@ class CompetitionSubmissionViewSet(mixins.CreateModelMixin, viewsets.GenericView
 
     def perform_create(self, serializer):
         submission = serializer.save()
-        calculate_submission.delay(submission.id)
+        validate_and_calculate_submission.delay(submission.id)
 
 
 class CompetitionBestSubmissionsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
