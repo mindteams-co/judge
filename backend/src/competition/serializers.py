@@ -37,3 +37,12 @@ class SubmissionReadOnlySerializer(serializers.ModelSerializer):
         model = Submission
         fields = ["id", "team", "score", "created_at", "entries"]
         read_only_fields = fields
+
+
+class TeamSubmissionsReadOnlySerializer(serializers.ModelSerializer):
+    competition = CompetitionSerializer()
+
+    class Meta:
+        model = Submission
+        fields = ["id", "score", "competition", "file", "created_at"]
+        read_only_fields = fields

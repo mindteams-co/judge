@@ -7,6 +7,7 @@ import { SubmitButton } from '../common/components/SubmitButton';
 import { authService, routingService } from '../services';
 import { showNotification } from '../common/helpers/showNotification';
 import { useAlert } from 'react-alert';
+import { Link } from 'react-router-dom';
 
 const FormWrapper = styled.div`
     width: 430px;
@@ -53,6 +54,7 @@ const RegisterFormComponent = ({ form }) => {
                 <Input id="password" type="password" form={form} placeholder="Password" />
                 <SubmitButton value="Register" />
             </Form>
+            Or <Link to="/"> go back to Home Page</Link>
         </FormWrapper>
     );
 };
