@@ -1,8 +1,11 @@
 import csv
 from contextlib import ExitStack
-from typing import Callable, Dict
+from typing import Callable, Dict, Type
 
-from competition.models import Submission
+from csvvalidator import *
+from django.db.models import FileField
+
+from competition.models import Submission, Competition
 
 
 def example_scorer_1(input_csv_path: str, result_csv_path: str) -> float:
@@ -32,3 +35,25 @@ class Scorer:
 
     def calculate_submission_result(self):
         return self.COMPETITIONS_SCORERS[self.submission.competition.pk](self.submission.file.path, "/backend/src/competition/csvs/test1.csv")
+
+
+field_names_1 = ('first_column', 'second_column',)
+example_validator_1 = CSVValidator(field_names_1)
+example_validator_1.add_value_check('first_column', int)
+example_validator_1.add_value_check('second_column', int)
+
+
+class SubmissionValidator:
+    COMPETITION_VALIDATORS = {
+        1: example_validator_1
+    }
+
+    def __init__(self, competition_id: int, submission_file: Type[FileField]):
+        self.competition = Competition.objects.get(id=competition_id)
+        self.submission_file = submission_file
+
+    def validate_submission_format(self):
+        with open(self.submission_file.path, newline="") as reader:
+            data = csv.reader(reader, delimiter=',')
+            return self.COMPETITION_VALIDATORS[self.competition.pk].validate(data)
+
