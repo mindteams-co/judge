@@ -24,6 +24,9 @@ build:
 start:
 	docker-compose up $(variadic_args)
 
+prod:
+	docker-compose up -d
+
 bootstrap-dev:
 	sh -c "chmod +x $(SCRIPTS_DIR)/bootstrap-dev.sh; $(SCRIPTS_DIR)/bootstrap-dev.sh"
 
