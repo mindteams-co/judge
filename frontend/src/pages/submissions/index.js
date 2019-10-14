@@ -28,6 +28,12 @@ const columns = [
         render: (text, record) => <a href={text}>Submitted CSV</a>,
     },
     {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+        width: '15%',
+    },
+    {
         title: 'Date',
         dataIndex: 'date',
         key: 'date',

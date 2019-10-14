@@ -7,4 +7,5 @@ from judge.celery import app
 def calculate_submission(submission_id):
     submission = Submission.objects.get(id=submission_id)
     submission.score = Scorer(submission).calculate_submission_result()
+    submission.status = Submission.ACCEPTED
     submission.save()
