@@ -1,4 +1,4 @@
-FROM node:alpine as builder
+FROM node:alpine as development
 
 WORKDIR /frontend
 
@@ -11,7 +11,9 @@ COPY . .
 
 RUN yarn build
 
-FROM nginx
+CMD ["yarn", "start"]
+
+FROM nginx:latest as production
 
 COPY ./nginx.conf /etc/nginx/conf.d/nginx.conf
-COPY --from=builder /frontend/build /frontend/build
+COPY --from=development /frontend/build /frontend/build

@@ -2,42 +2,43 @@ version: '3.7'
 
 services:
   frontend:
-    container_name: judge_frontend
     build:
-      context: ./frontend
-    restart: always
+      target: development
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+      - /frontend/build
+    ports:
+      - 3000:3000
 
   backend:
-    container_name: judge_backend
     build:
-      context: ./backend
       args:
         - DJANGO_ENV=development
-    restart: always
     env_file:
-      - ./backend/config/.env
+      - ./backend/config/.env.dev
     volumes:
+      - ./backend:/backend
       - media-files:/backend/src/media
       - static-files:/backend/src/static
     depends_on:
       - database
       - redis
+    restart: unless-stopped
 
   redis:
-    container_name: judge_redis
-    image: redis:4
-    restart: always
+    restart: unless-stopped
 
   celery:
-    container_name: judge_celery
     build:
       context: ./backend
       args:
-        - DJANGO_ENV=production
+        - DJANGO_ENV=development
     entrypoint: bash -c "cd src; celery -A judge worker -l info"
     env_file:
-      - ./backend/config/.env
+      - ./backend/config/.env.dev
     volumes:
+      - ./backend:/backend
       - media-files:/backend/src/media
     depends_on:
       - database
@@ -48,11 +49,9 @@ services:
     container_name: judge_db
     env_file:
       - ./backend/config/.env
-    restart: always
+    restart: unless-stopped
 
   nginx:
-    container_name: judge_nginx
-    restart: always
     build:
       context: ./nginx
       args:
@@ -64,6 +63,7 @@ services:
     volumes:
       - media-files:/media
       - static-files:/static
+    restart: unless-stopped
 
 volumes:
   media-files:
