@@ -54,11 +54,11 @@ services:
     build:
       context: ./nginx
       args:
-        NGINX_CONFIG: nginx.dev.conf
+        NGINX_CONFIG: nginx.conf
     depends_on:
       - backend
     ports:
-      - 8001:80
+      - 80:80
     volumes:
       - media-files:/media
       - static-files:/static
