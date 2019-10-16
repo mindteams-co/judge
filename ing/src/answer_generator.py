@@ -11,8 +11,8 @@ FORMAT = '%(asctime)-15s %(levelname)s %(message)s'
 logging.basicConfig(format=FORMAT, level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-input_dir = "C:\\Users\\FJ80KS\\Pictures\\zdjecia_hackaton\\input_dla_uczestnikow\\data\\apartment"
-answers_file = "C:\\Users\\FJ80KS\\Pictures\\zdjecia_hackaton\\input_dla_uczestnikow\\xxx.csv"
+input_dir = "\path\to\images"
+answers_file = "\path\to\save\answers\file.csv"
 
 labels_task_1 = ['Bathroom', 'Bathroom cabinet', 'Bathroom sink', 'Bathtub', 'Bed', 'Bed frame',
                  'Bed sheet', 'Bedroom', 'Cabinetry', 'Ceiling', 'Chair', 'Chandelier', 'Chest of drawers',
