@@ -2,10 +2,13 @@ import React from 'react';
 import { Layout, Card } from 'antd';
 import TabsComponent from '../../components/Tabs';
 import { LayoutStyled, HeaderStyled, LinkStyled, FooterStyled } from './style';
+import { authService } from '../../services';
+import JudgePage from '../judge';
 
 const { Content } = Layout;
 
 const HomePage = () => {
+    const user = authService.currentUserValue();
     return (
         <LayoutStyled>
             <HeaderStyled>
@@ -13,7 +16,7 @@ const HomePage = () => {
             </HeaderStyled>
             <Card>
                 <Content>
-                    <TabsComponent />
+                    {user && user.user.isAdmin ? <JudgePage></JudgePage> : <TabsComponent />}
                 </Content>
             </Card>
             <FooterStyled>© 2019 skyhacks</FooterStyled>
