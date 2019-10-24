@@ -12,7 +12,16 @@ def csv_directory_path(submission, filename):
 
 
 class Competition(models.Model):
+    PDF = "PDF"
+    CSV = "CSV"
+
+    TYPES = (
+        (PDF, "pdf"),
+        (CSV, "csv")
+    )
+
     name = models.CharField(max_length=64, unique=True)
+    type = models.CharField(max_length=3, choices=TYPES)
 
     def __str__(self):
         return self.name
@@ -43,3 +52,9 @@ class Submission(models.Model):
         return Submission.objects.filter(
             team=self.team, competition=self.competition
         ).count()
+
+
+class JudgeSubmissionScore(models.Model):
+    judge = models.ForeignKey(Team, on_delete=models.CASCADE)
+    competition = models.ForeignKey(Submission, on_delete=models.CASCADE)
+    score = models.FloatField()

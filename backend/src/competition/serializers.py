@@ -10,7 +10,14 @@ from team.serializers import TeamSerializer
 class CompetitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competition
-        fields = ["id", "name"]
+        fields = ["id", "name", "type"]
+
+
+class SubmissionPdfSerializer(serializers.ModelSerializer):
+    team = TeamSerializer()
+
+    class Meta:
+        model = Submission
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
