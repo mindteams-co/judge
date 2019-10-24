@@ -56,5 +56,5 @@ class Submission(models.Model):
 
 class JudgeSubmissionScore(models.Model):
     judge = models.ForeignKey(Team, on_delete=models.CASCADE)
-    competition = models.ForeignKey(Submission, on_delete=models.CASCADE)
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
     score = models.FloatField()
