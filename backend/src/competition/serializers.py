@@ -1,9 +1,10 @@
 from datetime import timedelta
 
+from django.db import transaction
 from django.utils import timezone
 from rest_framework import serializers
 
-from competition.models import Competition, Submission
+from competition.models import Competition, Submission, JudgeSubmissionScore
 from team.serializers import TeamSerializer
 
 
@@ -18,6 +19,28 @@ class SubmissionPdfSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Submission
+        fields = ["id", "team", "file", "created_at"]
+
+
+class SubmissionJudgeSerializer(serializers.ModelSerializer):
+    judge = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = JudgeSubmissionScore
+        fields = ["judge", "submission", "score"]
+
+    @transaction.atomic
+    def create(self, validated_data):
+        submission = validated_data["submission"]
+        score = validated_data["score"]
+
+        if JudgeSubmissionScore.objects.filter(submission=submission).count() == 1:
+            submission.status = Submission.ACCEPTED
+            submission.score = score
+
+        submission.save()
+
+        return super(SubmissionJudgeSerializer, self).create(validated_data)
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
