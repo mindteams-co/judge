@@ -3,7 +3,7 @@ import { Icon, Button, Upload } from 'antd';
 import PropTypes from 'prop-types';
 import { dummyUploadPhotoRequest } from '../common/helpers/dummyUploadPhotoRequest';
 
-const UploadSubmission = ({ setCurrentFileList, currentFileList }) => {
+const UploadSubmission = ({ setCurrentFileList, currentFileList, acceptType }) => {
     const handleOnChange = info => {
         let fileList = [...info.fileList];
         fileList = fileList.slice(-1);
@@ -14,16 +14,16 @@ const UploadSubmission = ({ setCurrentFileList, currentFileList }) => {
     return (
         <Upload
             onChange={handleOnChange}
-            name="CSV file"
+            name={acceptType === 'PDF' ? 'PDF file' : 'CSV file'}
             listType="file"
             customRequest={dummyUploadPhotoRequest}
             multiple={false}
             fileList={currentFileList}
-            accept=".csv"
+            accept={'.' + acceptType}
         >
             <Button>
                 <Icon type="upload" />
-                Click to upload CSV
+                Click to upload {acceptType}
             </Button>
         </Upload>
     );

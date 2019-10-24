@@ -13,4 +13,5 @@ urlpatterns = [
     path("refresh-token/", refresh_jwt_token),
     path("competitions/", include("competition.urls")),
     path("teams/", include("team.urls")),
+    path("submissions/", include("submission.urls")),
 ]
