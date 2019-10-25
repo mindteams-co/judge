@@ -6,10 +6,21 @@ import { authService } from '../services';
 const AuthRoute = ({ path, component }) => {
     const user = authService.currentUserValue();
 
+    const [isAdmin, setIsAdmin] = React.useState(false);
+
+    const handleSetAdmin = async () => {
+        const result = await authService.checkIfAdmin();
+        setIsAdmin(result);
+    };
+
+    React.useEffect(() => {
+        user && handleSetAdmin();
+    }, []);
+
     if (!user) {
         return <Redirect to="/login" />;
     }
-    if (user) {
+    if (user && isAdmin) {
         return <Redirect to="/" />;
     }
     return <Route exact path={path} component={component} />;
