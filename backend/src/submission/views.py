@@ -3,11 +3,17 @@ from rest_framework.viewsets import ModelViewSet
 
 from competition.models import Competition, Submission, JudgeSubmissionScore
 from competition.serializers import SubmissionPdfSerializer, SubmissionJudgeSerializer
+from team.permissions import IsAdmin
 
 
 class SubmissionViewSet(ModelViewSet):
     serializer_class = SubmissionPdfSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsAdmin)
+
+    def get_permissions(self):
+        if self.action == "list":
+            return [IsAuthenticated()]
+        return super().get_permissions()
 
     def get_serializer_class(self):
         if self.action == "list":

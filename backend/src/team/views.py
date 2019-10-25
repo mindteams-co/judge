@@ -19,7 +19,7 @@ class TeamViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     @action(
         methods=["GET"],
         detail=False,
-        permission_classes=[IsAuthenticated, IsAdmin]
+        permission_classes=[IsAuthenticated]
     )
     def me(self, request, **kwargs):
         serializer = self.get_serializer(request.user)
