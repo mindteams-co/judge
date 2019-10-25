@@ -23,7 +23,7 @@ labels_task_1 = ['Bathroom', 'Bathroom cabinet', 'Bathroom sink', 'Bathtub', 'Be
                  'Shower', 'Sink', 'Sky', 'Table', 'Tablecloth', 'Tap', 'Tile', 'Toilet', 'Tree', 'Urban area',
                  'Wall', 'Window']
 
-labels_task2 = ['apartment', 'bathroom', 'bedroom', 'dinning_room', 'house', 'kitchen', 'living_room']
+labels_task2 = ['apartment', 'bathroom', 'bedroom', 'dining_room', 'house', 'kitchen', 'living_room']
 
 labels_task3_1 = [1, 2, 3, 4]
 labels_task3_2 = [1, 2, 3, 4]

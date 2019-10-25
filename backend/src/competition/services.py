@@ -12,10 +12,10 @@ from judge.ingscorer import score
 def example_scorer_1(input_csv_path: str, result_csv_path: str) -> float:
     with ExitStack() as stack:
         result_csv = stack.enter_context(open(result_csv_path, newline=""))
-        reader_result = csv.reader(result_csv, delimiter=",")
+        reader_result = csv.reader(result_csv, delimiter=";")
 
         input_csv = stack.enter_context(open(input_csv_path, newline=""))
-        reader_input = csv.reader(input_csv, delimiter=",")
+        reader_input = csv.reader(input_csv, delimiter=";")
 
         match = 0
         for result_row, input_row in zip(reader_result, reader_input):
@@ -35,7 +35,7 @@ class Scorer:
         self.submission = submission
 
     def calculate_submission_result(self):
-        return self.COMPETITIONS_SCORERS[self.submission.competition.pk](self.submission.file.path, "/backend/src/competition/csvs/output_all.csv")
+        return self.COMPETITIONS_SCORERS[self.submission.competition.pk](self.submission.file.path, "/backend/src/competition/csvs/output_answers.csv")
 
 
 field_names_1 = ('filename','standard','task2_class','tech_cond','Bathroom','Bathroom cabinet','Bathroom sink','Bathtub','Bed','Bed frame','Bed sheet','Bedroom','Cabinetry','Ceiling','Chair','Chandelier',
@@ -112,5 +112,5 @@ class SubmissionValidator:
 
     def validate_submission_format(self):
         with open(self.submission_file.path, newline="") as reader:
-            data = csv.reader(reader, delimiter=',')
+            data = csv.reader(reader, delimiter=';')
             return self.COMPETITION_VALIDATORS[self.competition.pk].validate(data)
