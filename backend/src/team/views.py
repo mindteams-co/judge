@@ -1,6 +1,7 @@
 from django.utils.functional import cached_property
 from rest_framework import viewsets, mixins
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 
 from competition.models import Submission
 from competition.serializers import TeamSubmissionsReadOnlySerializer
@@ -13,8 +14,9 @@ class TeamViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = Team.objects.all()
 
 
-class TeamSubmissionsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class TeamSubmissionsViewSet(viewsets.ModelViewSet):
     serializer_class = TeamSubmissionsReadOnlySerializer
+    permission_classes = (IsAuthenticated,)
 
     @cached_property
     def team(self):

@@ -3,10 +3,14 @@ import * as React from 'react';
 import { Input } from '../common/components/Input';
 import { SubmitButton } from '../common/components/SubmitButton';
 import PropTypes from 'prop-types';
+import { useAlert } from 'react-alert';
 import { submissionService } from '../services';
 import handleResponse from '../common/helpers/handleResponse';
+import { showNotification } from '../common/helpers/showNotification';
 
 const JudgeSubmissionScoreFormComponent = ({ form }) => {
+    const alert = useAlert();
+
     const handleSubmit = async event => {
         event.preventDefault();
 
@@ -15,8 +19,9 @@ const JudgeSubmissionScoreFormComponent = ({ form }) => {
                 console.log(submissionId, score);
                 try {
                     const response = await submissionService.postSumbmission(submissionId, score);
-                    console.log(response);
                     await handleResponse(response);
+                    showNotification({ message: 'Successfully submitted', alert, option: 'success' });
+                    setTimeout(window.location.reload.bind(window.location), 500);
                 } catch (err) {
                     console.log(err);
                 }
@@ -38,7 +43,6 @@ const JudgeSubmissionScoreFormComponent = ({ form }) => {
                 form={form}
                 placeholder="Score"
                 message="Score is required"
-                type="float"
                 type="number"
             />
             <SubmitButton value="Submit" />
