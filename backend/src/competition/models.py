@@ -58,3 +58,6 @@ class JudgeSubmissionScore(models.Model):
     judge = models.ForeignKey(Team, on_delete=models.CASCADE)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
     score = models.FloatField()
+
+    def __str__(self):
+        return f"{self.submission.team} - {self.submission.competition}, score: {self.score}"
