@@ -53,7 +53,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
     }
 
     def validate(self, attrs):
-        last_submission = Submission.objects.filter(team=attrs['team']).order_by("-created_at").first()
+        last_submission = Submission.objects.filter(team=attrs['team'], competition=self.context["competition"]).order_by("-created_at").first()
         if last_submission:
             if timezone.now() - timedelta(minutes=15) < last_submission.created_at:
                 self.fail("one_submission_every_15_minutes")
