@@ -7,11 +7,23 @@ from competition.models import Submission
 from competition.serializers import TeamSubmissionsReadOnlySerializer
 from team.models import Team
 from team.serializers import TeamSerializer
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
 class TeamViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = TeamSerializer
     queryset = Team.objects.all()
+
+    @action(
+        methods=["GET"],
+        detail=False,
+        permission_classes=[IsAuthenticated]
+    )
+    def me(self, request, **kwargs):
+        serializer = self.get_serializer(request.user)
+
+        return Response(serializer.data)
 
 
 class TeamSubmissionsViewSet(viewsets.ModelViewSet):

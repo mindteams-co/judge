@@ -8,8 +8,8 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = ["id", "name", "email", "password", "created_at"]
-        read_only_fields = ["created_at"]
+        fields = ["id", "name", "email", "password", "created_at", "is_admin"]
+        read_only_fields = ["created_at", "is_admin"]
 
     def create(self, validated_data):
         return Team.objects.create_team(**validated_data)
