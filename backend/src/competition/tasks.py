@@ -20,9 +20,14 @@ def calculate_submission(submission_id):
     submission = Submission.objects.get(id=submission_id)
 
     if submission.status == Submission.PENDING:
-        submission.score = Scorer(submission).calculate_submission_result()
-        submission.status = Submission.ACCEPTED
-        submission.save()
+        try:
+            submission.score = Scorer(submission).calculate_submission_result()
+            submission.status = Submission.ACCEPTED
+            submission.save()
+        except KeyError:
+            submission.score = None
+            submission.status = Submission.INVALID_FORMAT
+            submission.save()
 
 
 @app.task

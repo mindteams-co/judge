@@ -11,6 +11,7 @@ from competition.serializers import (
     SubmissionSerializer,
     SubmissionReadOnlySerializer,
 )
+from competition.services import SubmissionValidator
 from competition.tasks import validate_and_calculate_submission
 
 
