@@ -12,7 +12,7 @@ services:
     build:
       context: ./backend
       args:
-        - DJANGO_ENV=development
+        - DJANGO_ENV=production
     restart: always
     env_file:
       - ./backend/config/.env
