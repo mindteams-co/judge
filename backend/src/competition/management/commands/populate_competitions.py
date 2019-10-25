@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
 from competition.models import Competition
+from team.models import Team
 
 
 class Command(BaseCommand):
@@ -38,10 +39,8 @@ class Command(BaseCommand):
         self.stdout.write("Attempting to load competitions fixtures...")
 
         Competition.objects.bulk_create([
-            Competition(name="IEEE-CIS Fraud Detection", type=Competition.PDF),
-            Competition(name="Predict Future Sales", type=Competition.CSV),
-            Competition(name="Kannada MNIST"),
-            Competition(name="Digit Recognizer"),
+            Competition(name="MAIN TASK", type=Competition.CSV),
+            Competition(name="BONUS TASK", type=Competition.PDF),
         ])
 
         self.stdout.write("Fixtures loaded successfully.")

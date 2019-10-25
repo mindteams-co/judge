@@ -1,7 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from team.factories import TeamFactory
 from team.models import Team
 
 
@@ -38,9 +37,9 @@ class Command(BaseCommand):
     def _run_fixtures(self):
         self.stdout.write("Attempting to load team fixtures...")
 
-        TeamFactory.create(name="AI TEAM 1")
-        TeamFactory.create(name="AI TEAM 2")
-        TeamFactory.create(name="AI TEAM 3")
-        TeamFactory.create(name="AI TEAM 4")
+        Team.objects.create_superuser(name="Marcin Josiński", email="josinski@outlook.com",
+                                      password="123qweasd"),
+        Team.objects.create_superuser(name="Andrii Isiuk", email="andrii.isiuk@skygate.io",
+                                      password="12kvdo43$$E")
 
         self.stdout.write("Fixtures loaded successfully.")
