@@ -52,13 +52,13 @@ class SubmissionSerializer(serializers.ModelSerializer):
         "one_submission_every_15_minutes": "You can send one submission every 15 minutes."
     }
 
-    # def validate(self, attrs):
-    #     last_submission = Submission.objects.filter(team=attrs['team'], competition=self.context["competition"]).order_by("-created_at").first()
-    #     if last_submission:
-    #         if timezone.now() - timedelta(minutes=15) < last_submission.created_at:
-    #             self.fail("one_submission_every_15_minutes")
-    #
-    #     return super().validate(attrs)
+    def validate(self, attrs):
+        last_submission = Submission.objects.filter(team=attrs['team'], competition=self.context["competition"]).order_by("-created_at").first()
+        if last_submission:
+            if timezone.now() - timedelta(minutes=15) < last_submission.created_at:
+                self.fail("one_submission_every_15_minutes")
+
+        return super().validate(attrs)
 
     def create(self, validated_data):
         submission = Submission.objects.create(
