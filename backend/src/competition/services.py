@@ -112,5 +112,5 @@ class SubmissionValidator:
 
     def validate_submission_format(self):
         with open(self.submission_file.path, newline="") as reader:
-            data = csv.reader(reader, delimiter=';')
+            data = csv.reader(reader, delimiter=',')
             return self.COMPETITION_VALIDATORS[self.competition.pk].validate(data)
