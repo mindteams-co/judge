@@ -80,7 +80,8 @@ const SubmissionsPage = () => {
                             If a scorer returned INVALID_FORMAT:
                             <ul>
                                 Please ensure that:
-                                <li>the first line of CSV has set up proper labels</li>
+                                <li>the first line of CSV has set up proper labels</li> 
+                                <li>file has 31 columns (including the one with labels)</li> 
                             </ul>
                         </p>
                     </Card>
