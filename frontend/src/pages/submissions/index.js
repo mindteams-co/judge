@@ -25,7 +25,7 @@ const columns = [
         dataIndex: 'file',
         key: 'file',
         width: '15%',
-        render: (text, record) => <a href={text}>Submitted CSV</a>,
+        render: (text, record) => <a href={text}>Submitted file</a>,
     },
     {
         title: 'Status',

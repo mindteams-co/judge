@@ -13,4 +13,4 @@ fi
 ./src/manage.py migrate --noinput
 ./src/manage.py check --deploy
 
-uwsgi --http :8000 --wsgi-file ../src/judge/wsgi.py
+uwsgi --http :8000 --chdir ./src --wsgi-file ../src/judge/wsgi.py

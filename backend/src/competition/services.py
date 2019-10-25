@@ -28,7 +28,7 @@ def example_scorer_1(input_csv_path: str, result_csv_path: str) -> float:
 
 class Scorer:
     COMPETITIONS_SCORERS: Dict[int, Callable[[str, str], float]] = {
-        1: score,
+        1: score
     }
 
     def __init__(self, submission: Submission):
@@ -46,7 +46,7 @@ example_validator_1.add_value_check('second_column', int)
 
 class SubmissionValidator:
     COMPETITION_VALIDATORS = {
-        1: example_validator_1
+        2: example_validator_1
     }
 
     def __init__(self, competition_id: int, submission_file: Type[FileField]):
@@ -57,4 +57,3 @@ class SubmissionValidator:
         with open(self.submission_file.path, newline="") as reader:
             data = csv.reader(reader, delimiter=',')
             return self.COMPETITION_VALIDATORS[self.competition.pk].validate(data)
-

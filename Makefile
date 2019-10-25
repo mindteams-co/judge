@@ -1,3 +1,5 @@
+dev-dockerfile = -f docker-compose.yml -f docker-compose.dev.yml
+
 include tools.Makefile
 .PHONY: help
 
@@ -21,8 +23,17 @@ backend-bash:
 build:
 	docker-compose build $(variadic_args)
 
+build-dev:
+	docker-compose $(dev-dockerfile) build $(variadic_args)
+
 start:
 	docker-compose up $(variadic_args)
+
+prod:
+	docker-compose up -d
+
+dev:
+	docker-compose $(dev-dockerfile) up
 
 bootstrap-dev:
 	sh -c "chmod +x $(SCRIPTS_DIR)/bootstrap-dev.sh; $(SCRIPTS_DIR)/bootstrap-dev.sh"

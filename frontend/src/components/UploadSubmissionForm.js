@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Form, Button, Row, Col } from 'antd';
@@ -22,6 +22,11 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
     const alert = useAlert();
 
     const [currentFileList, setCurrentFileList] = useState([]);
+    const [competition, setCompetition] = useState({});
+
+    useEffect(() => {
+        competitionService.getCompetition(competitionId).then(setCompetition);
+    }, [competitionId]);
 
     const handleOnSubmit = async event => {
         event.preventDefault();
@@ -59,6 +64,7 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
                         <UploadSubmission
                             setCurrentFileList={setCurrentFileList}
                             currentFileList={currentFileList}
+                            acceptType={competition.type}
                         />
                     </Form.Item>
                 </ColStyled>

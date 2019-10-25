@@ -10,7 +10,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ["DJANGO_ENV"] == "development" else False
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["localhost", "skygate.io", "*"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -49,6 +49,8 @@ REST_FRAMEWORK = {
 JWT_AUTH = {
     "JWT_EXPIRATION_DELTA": datetime.timedelta(hours=24),
     "JWT_ALLOW_REFRESH": True,
+    "JWT_RESPONSE_PAYLOAD_HANDLER": "team.custom_jwt.jwt_response_payload_handler",
+
 }
 
 MIDDLEWARE = [

@@ -2,6 +2,8 @@ from django.utils.functional import cached_property
 from rest_framework import viewsets, mixins
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
 
 from competition.models import Competition, Submission
 from competition.serializers import (
@@ -9,18 +11,18 @@ from competition.serializers import (
     SubmissionSerializer,
     SubmissionReadOnlySerializer,
 )
-from competition.services import SubmissionValidator
 from competition.tasks import validate_and_calculate_submission
 
 
-class CompetitionViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class CompetitionViewSet(ModelViewSet):
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
 
 
-class CompetitionSubmissionViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+class CompetitionSubmissionViewSet(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = SubmissionSerializer
+    permission_classes = (IsAuthenticated,)
 
     @cached_property
     def competition(self):
@@ -34,7 +36,8 @@ class CompetitionSubmissionViewSet(mixins.CreateModelMixin, viewsets.GenericView
 
     def perform_create(self, serializer):
         submission = serializer.save()
-        validate_and_calculate_submission.delay(submission.id)
+        if self.competition.type == Competition.CSV:
+            validate_and_calculate_submission.delay(submission.id)
 
 
 class CompetitionBestSubmissionsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):

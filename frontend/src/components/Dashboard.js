@@ -30,7 +30,8 @@ const Dashboard = ({ competitionId }) => {
                 </>
             ) : (
                 <>
-                    Please <Link to="/login">log in</Link> to submit a solution
+                    Please <Link to="/login">log in</Link> / <Link to="/register">register</Link> to
+                    submit a solution
                 </>
             )}
         </CardStyled>

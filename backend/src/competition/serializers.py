@@ -1,16 +1,46 @@
 from datetime import timedelta
 
+from django.db import transaction
 from django.utils import timezone
 from rest_framework import serializers
 
-from competition.models import Competition, Submission
+from competition.models import Competition, Submission, JudgeSubmissionScore
 from team.serializers import TeamSerializer
 
 
 class CompetitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competition
-        fields = ["id", "name"]
+        fields = ["id", "name", "type"]
+
+
+class SubmissionPdfSerializer(serializers.ModelSerializer):
+    team = TeamSerializer()
+
+    class Meta:
+        model = Submission
+        fields = ["id", "team", "file", "created_at"]
+
+
+class SubmissionJudgeSerializer(serializers.ModelSerializer):
+    judge = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = JudgeSubmissionScore
+        fields = ["judge", "submission", "score"]
+
+    @transaction.atomic
+    def create(self, validated_data):
+        submission = validated_data["submission"]
+        score = validated_data["score"]
+
+        if JudgeSubmissionScore.objects.filter(submission=submission).count() == 1:
+            submission.status = Submission.ACCEPTED
+            submission.score = score
+
+        submission.save()
+
+        return super(SubmissionJudgeSerializer, self).create(validated_data)
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
@@ -23,9 +53,10 @@ class SubmissionSerializer(serializers.ModelSerializer):
     }
 
     def validate(self, attrs):
-        last_submission = Submission.objects.filter(team=attrs['team']).order_by("-created_at").first()
-        if timezone.now() - timedelta(minutes=15) < last_submission.created_at:
-            self.fail("one_submission_every_15_minutes")
+        last_submission = Submission.objects.filter(team=attrs['team'], competition=self.context["competition"]).order_by("-created_at").first()
+        if last_submission:
+            if timezone.now() - timedelta(minutes=15) < last_submission.created_at:
+                self.fail("one_submission_every_15_minutes")
 
         return super().validate(attrs)
 

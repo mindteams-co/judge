@@ -38,8 +38,8 @@ class Command(BaseCommand):
         self.stdout.write("Attempting to load competitions fixtures...")
 
         Competition.objects.bulk_create([
-            Competition(name="IEEE-CIS Fraud Detection"),
-            Competition(name="Predict Future Sales"),
+            Competition(name="IEEE-CIS Fraud Detection", type=Competition.PDF),
+            Competition(name="Predict Future Sales", type=Competition.CSV),
             Competition(name="Kannada MNIST"),
             Competition(name="Digit Recognizer"),
         ])
