@@ -28,7 +28,7 @@ def example_scorer_1(input_csv_path: str, result_csv_path: str) -> float:
 
 class Scorer:
     COMPETITIONS_SCORERS: Dict[int, Callable[[str, str], float]] = {
-        2: score
+        1: score
     }
 
     def __init__(self, submission: Submission):
@@ -103,7 +103,7 @@ example_validator_1.add_value_check('Window', int)
 
 class SubmissionValidator:
     COMPETITION_VALIDATORS = {
-        2: example_validator_1
+        1: example_validator_1
     }
 
     def __init__(self, competition_id: int, submission_file: Type[FileField]):
