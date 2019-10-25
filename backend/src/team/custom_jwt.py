@@ -3,6 +3,5 @@ def jwt_response_payload_handler(token, user=None, request=None):
         "token": token,
         "user": {
             "email": user.email,
-            "is_admin": user.is_admin
         }
     }

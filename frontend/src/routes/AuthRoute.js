@@ -9,7 +9,7 @@ const AuthRoute = ({ path, component }) => {
     if (!user) {
         return <Redirect to="/login" />;
     }
-    if (user && user.user.isAdmin) {
+    if (user) {
         return <Redirect to="/" />;
     }
     return <Route exact path={path} component={component} />;

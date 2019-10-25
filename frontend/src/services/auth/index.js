@@ -1,5 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import handleResponse from '../../common/helpers/handleResponse.js';
+import { handleAdminResponse } from '../../common/helpers/handleAdminResponse';
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
@@ -12,6 +13,13 @@ export class AuthServiceFactory {
 
     currentUserValue() {
         return currentUserSubject.value;
+    }
+
+    checkIfAdmin() {
+        return this.httpService
+            .GET('teams/me')
+            .then(handleAdminResponse)
+            .then(user => user.isAdmin);
     }
 
     login(email, password) {
