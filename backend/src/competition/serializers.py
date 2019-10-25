@@ -32,11 +32,15 @@ class SubmissionJudgeSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         submission = validated_data["submission"]
-        score = validated_data["score"]
 
         if JudgeSubmissionScore.objects.filter(submission=submission).count() == 1:
             submission.status = Submission.ACCEPTED
-            submission.score = score
+            submissions = JudgeSubmissionScore.objects.filter(submission=submission)
+            scores = 0
+            for submission1 in submissions:
+                scores += submission1.score
+
+            submission.score = scores / 2
 
         submission.save()
 
@@ -79,10 +83,19 @@ class SubmissionReadOnlySerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
 
+class JudgeSubmissionScoreSerializer(serializers.ModelSerializer):
+    judge  = TeamSerializer()
+
+    class Meta:
+        model = JudgeSubmissionScore
+        fields = ["judge", "score"]
+
+
 class TeamSubmissionsReadOnlySerializer(serializers.ModelSerializer):
     competition = CompetitionSerializer()
+    judgesubmissionscore_set = JudgeSubmissionScoreSerializer(many=True, read_only=True)
 
     class Meta:
         model = Submission
-        fields = ["id", "score", "competition", "file", "created_at", "status"]
+        fields = ["id", "score", "competition", "file", "created_at", "status", "judgesubmissionscore_set"]
         read_only_fields = fields

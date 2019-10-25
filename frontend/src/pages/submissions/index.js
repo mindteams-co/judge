@@ -21,6 +21,12 @@ const columns = [
         width: '15%',
     },
     {
+        title: 'Judges',
+        dataIndex: 'judges',
+        key: 'judges',
+        width: '15%',
+    },
+    {
         title: 'Submission File',
         dataIndex: 'file',
         key: 'file',
@@ -51,12 +57,15 @@ const SubmissionsPage = () => {
         teamService.getTeamSubmissions(teamId).then(setTeamSubmissions);
     }, [teamId]);
 
-    const dataSource = teamSubmissions.map(({ competition, createdAt, id, ...rest }) => ({
-        competition: competition.name,
-        key: id,
-        date: formatDate(createdAt),
-        ...rest,
-    }));
+    const dataSource = teamSubmissions.map(
+        ({ competition, createdAt, judgesubmissionscoreSet, id, ...rest }) => ({
+            competition: competition.name,
+            key: id,
+            judges: judgesubmissionscoreSet.map(xd => `${xd.judge.name} - ${xd.score}`).toString(),
+            date: formatDate(createdAt),
+            ...rest,
+        }),
+    );
 
     return (
         <LayoutStyled>
@@ -69,7 +78,6 @@ const SubmissionsPage = () => {
                         <Link to="/">Go back to Home Page</Link>
                         <p style={{ float: 'left' }}>
                             If a scorer returned INVALID_FORMAT:
-                            <br />
                             <ul>
                                 Please ensure that:
                                 <li>the first line of CSV has set up proper labels</li>

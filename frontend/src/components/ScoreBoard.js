@@ -23,7 +23,7 @@ const columns = [
         width: '15%',
     },
     {
-        title: 'Last',
+        title: 'Date',
         dataIndex: 'last',
         key: 'last',
         width: '15%',

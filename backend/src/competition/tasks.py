@@ -24,7 +24,7 @@ def calculate_submission(submission_id):
             submission.score = Scorer(submission).calculate_submission_result()
             submission.status = Submission.ACCEPTED
             submission.save()
-        except KeyError:
+        except:
             submission.score = None
             submission.status = Submission.INVALID_FORMAT
             submission.save()

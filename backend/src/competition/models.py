@@ -29,12 +29,12 @@ class Competition(models.Model):
 
 class Submission(models.Model):
     ACCEPTED = "ACCEPTED"
-    PENDING = "PENDING"
+    PENDING = "WAITING_FOR_REVIEW"
     INVALID_FORMAT = "INVALID_FORMAT"
 
     STATUSES = (
         (ACCEPTED, "Accepted"),
-        (PENDING, "Pending"),
+        (PENDING, "Waiting for review"),
         (INVALID_FORMAT, "Invalid format"),
     )
 
@@ -42,7 +42,7 @@ class Submission(models.Model):
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
     file = models.FileField(upload_to=csv_directory_path)
     score = models.FloatField(null=True)
-    status = models.CharField(max_length=14, choices=STATUSES)
+    status = models.CharField(max_length=18, choices=STATUSES)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
