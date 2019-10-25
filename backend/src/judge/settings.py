@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-
     "team",
     "competition",
 ]
@@ -50,7 +49,6 @@ JWT_AUTH = {
     "JWT_EXPIRATION_DELTA": datetime.timedelta(hours=24),
     "JWT_ALLOW_REFRESH": True,
     "JWT_RESPONSE_PAYLOAD_HANDLER": "team.custom_jwt.jwt_response_payload_handler",
-
 }
 
 MIDDLEWARE = [
@@ -149,3 +147,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 MEDIA_URL = "/api/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+FILE_UPLOAD_PERMISSIONS = 0o644
