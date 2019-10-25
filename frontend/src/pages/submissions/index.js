@@ -81,7 +81,6 @@ const SubmissionsPage = () => {
                             <ul>
                                 Please ensure that:
                                 <li>the first line of CSV has set up proper labels</li>
-                                <li>file has 2742 columns (including the one with labels)</li>
                             </ul>
                         </p>
                     </Card>
