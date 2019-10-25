@@ -35,7 +35,6 @@ const ScoreBoard = ({ id }) => {
 
     useEffect(() => {
         competitionService.getCompetitionScores(id).then(setCompetitionScores);
-        setInterval(() => competitionService.getCompetitionScores(id).then(setCompetitionScores), 1000);
     }, [id]);
 
     const dataSource = competitionScores.map(({ team, createdAt, ...rest }) => ({
