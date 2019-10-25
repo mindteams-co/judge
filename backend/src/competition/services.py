@@ -6,6 +6,7 @@ from csvvalidator import *
 from django.db.models import FileField
 
 from competition.models import Submission, Competition
+from judge.ingscorer import score
 
 
 def example_scorer_1(input_csv_path: str, result_csv_path: str) -> float:
@@ -27,14 +28,14 @@ def example_scorer_1(input_csv_path: str, result_csv_path: str) -> float:
 
 class Scorer:
     COMPETITIONS_SCORERS: Dict[int, Callable[[str, str], float]] = {
-        2: example_scorer_1,
+        1: score
     }
 
     def __init__(self, submission: Submission):
         self.submission = submission
 
     def calculate_submission_result(self):
-        return self.COMPETITIONS_SCORERS[self.submission.competition.pk](self.submission.file.path, "/backend/src/competition/csvs/test1.csv")
+        return self.COMPETITIONS_SCORERS[self.submission.competition.pk](self.submission.file.path, "/backend/src/competition/csvs/output_alL.csv")
 
 
 field_names_1 = ('first_column', 'second_column',)
