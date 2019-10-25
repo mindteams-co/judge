@@ -67,6 +67,15 @@ const SubmissionsPage = () => {
                 <Content>
                     <Card>
                         <Link to="/">Go back to Home Page</Link>
+                        <p style={{ float: 'left' }}>
+                            If a scorer returned INVALID_FORMAT:
+                            <br />
+                            <ul>
+                                Please ensure that:
+                                <li>the first line of CSV has set up proper labels</li>
+                                <li>file has 2742 columns (including the one with labels)</li>
+                            </ul>
+                        </p>
                     </Card>
                     <Table pagination={false} dataSource={dataSource} columns={columns} />
                 </Content>
