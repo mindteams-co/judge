@@ -29,14 +29,10 @@ INSTALLED_APPS = [
     "competition",
 ]
 
-if DEBUG:
-    INSTALLED_APPS += ["django_extensions"]
-
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
     "DEFAULT_RENDERER_CLASSES": (
         "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
-        "rest_framework.renderers.BrowsableAPIRenderer",
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
@@ -44,6 +40,12 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
     ),
 }
+
+if DEBUG:
+    INSTALLED_APPS += ["django_extensions"]
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] += (
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    )
 
 JWT_AUTH = {
     "JWT_EXPIRATION_DELTA": datetime.timedelta(hours=55),
