@@ -61,6 +61,9 @@ const JudgePage = () => {
 
     const { user } = JSON.parse(new StorageService().getItem('currentUser'));
 
+    const favicon = document.getElementById('favicon');
+    favicon.href = 'skyhacks_logo.png';
+
     return (
         <>
             <CardStyled>
