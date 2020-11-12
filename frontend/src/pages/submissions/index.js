@@ -81,14 +81,14 @@ const SubmissionsPage = () => {
                             <ul>
                                 Please ensure that:
                                 <li>the first line of CSV has set up proper labels</li> 
-                                <li>file has 31 columns (including the one with labels)</li> 
+                                <li>file has 39 columns</li> 
                             </ul>
                         </p>
                     </Card>
                     <Table pagination={false} dataSource={dataSource} columns={columns} />
                 </Content>
             </Card>
-            <FooterStyled>© 2019 skyhacks</FooterStyled>
+            <FooterStyled>© 2020 skyhacks</FooterStyled>
         </LayoutStyled>
     );
 };
