@@ -15,7 +15,7 @@ const TabsComponent = () => {
 
     return (
         <Tabs defaultActiveKey="1">
-            {competitions.map(comp => (
+            {competitions.length && competitions.map(comp => (
                 <TabPane tab={comp.name} key={comp.id}>
                     <Dashboard competitionId={comp.id} />
                     <ScoreBoard id={comp.id} />

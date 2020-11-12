@@ -1,3 +1,4 @@
+import os
 from uuid import uuid4
 
 from django.db import models
@@ -9,6 +10,12 @@ def csv_directory_path(submission, filename):
     extension = filename.rsplit(".", 1)[-1]
 
     return f"file-{submission.team.name}/{uuid4()}.{extension}"
+
+def answers_csv_directory_path(competition, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{uuid4()}.{ext}"
+
+    return os.path.join('answers/', filename)
 
 
 class Competition(models.Model):
@@ -22,6 +29,7 @@ class Competition(models.Model):
 
     name = models.CharField(max_length=64, unique=True)
     type = models.CharField(max_length=3, choices=TYPES)
+    answers_csv = models.FileField(upload_to=answers_csv_directory_path, null=True)
 
     def __str__(self):
         return self.name

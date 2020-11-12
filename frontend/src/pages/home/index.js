@@ -28,7 +28,7 @@ const HomePage = () => {
             <Card>
                 <Content>{user && isAdmin ? <JudgePage /> : <TabsComponent />}</Content>
             </Card>
-            <FooterStyled>© 2019 skyhacks</FooterStyled>
+            <FooterStyled>© 2020 skyhacks</FooterStyled>
         </LayoutStyled>
     );
 };
