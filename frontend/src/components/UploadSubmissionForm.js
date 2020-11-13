@@ -71,6 +71,7 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
                         />
                     </Form.Item>
                     <Form.Item>
+                        <p>You can also upload a link for your solution:</p>
                         <input type="text" value={currentLink} />
                     </Form.Item>
                 </ColStyled>
