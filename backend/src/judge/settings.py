@@ -10,7 +10,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ["DJANGO_ENV"] == "development" else False
 
-ALLOWED_HOSTS = ["localhost", "skygate.io", "*"]
+ALLOWED_HOSTS = ["localhost", "skygate.io", "judge.skyhacks.io", "*"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
