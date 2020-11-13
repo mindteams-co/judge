@@ -46,3 +46,17 @@ class Team(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+    @property
+    def final_score(self):
+        submissions = self.submissions.filter(
+            status='ACCEPTED',
+            team=self
+        ).order_by(
+            'competition',
+            '-score'
+        ).distinct('competition')
+
+        return sum([submission.score * submission.competition.weight for submission in submissions])
+
+

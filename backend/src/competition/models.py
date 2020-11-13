@@ -18,6 +18,12 @@ def answers_csv_directory_path(competition, filename):
     return os.path.join('answers/', filename)
 
 
+def answers_csv_directory_path(instance, filename):
+    extension = filename.rsplit(".", 1)[-1]
+
+    return f"answers/{uuid4()}.{extension}"
+
+
 class Competition(models.Model):
     PDF = "PDF"
     CSV = "CSV"
@@ -29,7 +35,8 @@ class Competition(models.Model):
 
     name = models.CharField(max_length=64, unique=True)
     type = models.CharField(max_length=3, choices=TYPES)
-    answers_csv = models.FileField(upload_to=answers_csv_directory_path, null=True)
+    answers_csv = models.FileField(upload_to=answers_csv_directory_path, blank=True, null=True)
+    weight = models.FloatField(default=1)
 
     def __str__(self):
         return self.name
@@ -46,7 +53,7 @@ class Submission(models.Model):
         (INVALID_FORMAT, "Invalid format"),
     )
 
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="submissions")
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
     file = models.FileField(upload_to=csv_directory_path)
     score = models.FloatField(null=True)
