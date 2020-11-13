@@ -13,3 +13,11 @@ class TeamSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Team.objects.create_team(**validated_data)
+
+
+class TeamFinalScoreSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Team
+        fields = ("name", "final_score")
+        read_only_fields = ("name", "final_score")

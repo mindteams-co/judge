@@ -33,22 +33,14 @@ class SubmissionJudgeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         submission = validated_data["submission"]
 
-        if JudgeSubmissionScore.objects.filter(submission=submission).count() == 4:
+        if JudgeSubmissionScore.objects.filter(submission=submission).count() >= 2:
             submission.status = Submission.ACCEPTED
 
-            submissions = JudgeSubmissionScore.objects.filter(submission=submission).order_by("-score")
-            submissions[0].score = 0
-            submissions[0].save()
+            judge_submissions = JudgeSubmissionScore.objects.filter(submission=submission).order_by("-score")
 
-            lastsub = submissions.reverse()[0]
-            lastsub.score = 0
-            lastsub.save()
+            sum_score = sum([submission.score for submission in judge_submissions]) + validated_data["score"]
+            submission.score = sum_score / (len(judge_submissions) + 1)
 
-            scores = 0
-            for submission1 in submissions:
-                scores += submission1.score
-
-            submission.score = scores / 3
 
         submission.save()
 

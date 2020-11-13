@@ -7,7 +7,7 @@ from competition.models import Submission
 from competition.serializers import TeamSubmissionsReadOnlySerializer
 from team.permissions import IsAdmin
 from team.models import Team
-from team.serializers import TeamSerializer
+from team.serializers import TeamSerializer, TeamFinalScoreSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -37,3 +37,12 @@ class TeamSubmissionsViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Submission.objects.filter(team=self.team).order_by("-created_at")
+
+
+class TeamFinalScoreViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = TeamFinalScoreSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        queryset = Team.objects.filter(is_admin=False).prefetch_related("submissions")
+        return sorted(queryset, key=lambda x: -x.final_score)

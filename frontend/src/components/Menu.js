@@ -16,6 +16,7 @@ const LinkStyled = styled(Link)`
 export const Menu = () => (
     <List>
         <LinkStyled to="/submissions">My submissions</LinkStyled>
+        <LinkStyled to="/final-scores">Final scores</LinkStyled>
         <LinkStyled to="/" onClick={authService.logout}>
             Log out
         </LinkStyled>
