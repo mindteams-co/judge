@@ -22,6 +22,7 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
     const alert = useAlert();
 
     const [currentFileList, setCurrentFileList] = useState([]);
+    const [currentLink, setCurrentLink] = useState([]);
     const [competition, setCompetition] = useState({});
 
     useEffect(() => {
@@ -39,6 +40,7 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
         const data = {
             team: teamId,
             file: file.originFileObj,
+            link: currentLink,
         };
 
         try {
@@ -54,6 +56,7 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
             showNotification({ message: err.nonFieldErrors[0], alert });
         }
         setCurrentFileList([]);
+        setCurrentLink("");
     };
 
     return (
@@ -66,6 +69,9 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
                             currentFileList={currentFileList}
                             acceptType={competition.type}
                         />
+                    </Form.Item>
+                    <Form.Item>
+                        <input type="text" value={currentLink} />
                     </Form.Item>
                 </ColStyled>
                 <ColStyled>
