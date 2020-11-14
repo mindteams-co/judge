@@ -40,9 +40,9 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
         let file; 
 
         if (currentFileList.length !== 1) {
-            file = currentFileList[0];
-        } else {
             file = undefined;
+        } else {
+            file = currentFileList[0];
         }
       
         const teamId = decodeToken(user.token).user_id;
