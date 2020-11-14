@@ -64,7 +64,7 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
                 option: 'success',
             });
         } catch (err) {
-            showNotification({ message: 'Sorry we have problems with our server, please contanct our support' , alert });
+            showNotification({ message: 'Sorry we have problems with our server, please contact our support' , alert });
         }
         setCurrentFileList([]);
         setCurrentLink("");
