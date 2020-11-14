@@ -29,19 +29,30 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
         competitionService.getCompetition(competitionId).then(setCompetition);
     }, [competitionId]);
 
+
+    const handleChange  = (event) => {
+        setCurrentLink(event.target.value);
+    }
+
     const handleOnSubmit = async event => {
         event.preventDefault();
 
-        if (currentFileList.length !== 1) return;
+        let file; 
 
-        const file = currentFileList[0];
+        if (currentFileList.length !== 1) {
+            file = currentFileList[0];
+        } else {
+            file = undefined;
+        }
+      
         const teamId = decodeToken(user.token).user_id;
 
         const data = {
             team: teamId,
-            file: file.originFileObj,
+            file: file ? file.originFileObj : null,
             link: currentLink,
         };
+        
 
         try {
             const response = await competitionService.postCompetitionSubmission(competitionId, data);
@@ -71,8 +82,8 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <p>You can also upload a link for your solution:</p>
-                        <input type="text" value={currentLink} />
+                        <p>Upload a link for your solution:</p>
+                        <input type="url" onChange={handleChange} style="min-width: 400px"/>
                     </Form.Item>
                 </ColStyled>
                 <ColStyled>
