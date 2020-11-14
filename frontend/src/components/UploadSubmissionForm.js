@@ -47,7 +47,6 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
       
         const teamId = decodeToken(user.token).user_id;
 
-
         let data;
 
         if (file) {
@@ -63,6 +62,14 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
             };
         }
 
+        if (!data.file && data.link.length === 0) {
+            showNotification({ message: 'Sorry we have problems with our server, please contact our support' , alert });
+            return;
+        } 
+
+
+
+       
         try {
             const response = await competitionService.postCompetitionSubmission(competitionId, data);
             await handleResponse(response);
