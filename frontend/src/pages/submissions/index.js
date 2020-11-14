@@ -34,6 +34,13 @@ const columns = [
         render: (text, record) => <a href={text}>Submitted file</a>,
     },
     {
+        title: 'Link',
+        dataIndex: 'link',
+        key: 'link',
+        width: '15%',
+        render: (text, record) => <a href={text} target="_blank">Link</a>,
+    },
+    {
         title: 'Status',
         dataIndex: 'status',
         key: 'status',

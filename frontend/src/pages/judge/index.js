@@ -37,6 +37,11 @@ const columns = [
         width: '15%',
     },
     {
+        title: 'Link',
+        dataIndex: 'link',
+        key: 'link',
+    },
+    {
         title: 'Submitted Date',
         dataIndex: 'date',
         key: 'date',

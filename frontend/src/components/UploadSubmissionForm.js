@@ -22,25 +22,52 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
     const alert = useAlert();
 
     const [currentFileList, setCurrentFileList] = useState([]);
+    const [currentLink, setCurrentLink] = useState([]);
     const [competition, setCompetition] = useState({});
 
     useEffect(() => {
         competitionService.getCompetition(competitionId).then(setCompetition);
     }, [competitionId]);
 
+
+    const handleChange  = (event) => {
+        setCurrentLink(event.target.value);
+    }
+
     const handleOnSubmit = async event => {
         event.preventDefault();
 
-        if (currentFileList.length !== 1) return;
+        let file; 
 
-        const file = currentFileList[0];
+        if (currentFileList.length !== 1) {
+            file = undefined;
+        } else {
+            file = currentFileList[0];
+        }
+      
         const teamId = decodeToken(user.token).user_id;
 
-        const data = {
-            team: teamId,
-            file: file.originFileObj,
-        };
+        let data;
 
+        if (file) {
+            data = {
+                team: teamId,
+                link: currentLink,
+                file: file ? file.originFileObj : null,
+            };
+        } else {
+            data = {
+                team: teamId,
+                link: currentLink,
+            };
+        }
+
+        if (!data.file && data.link.length === 0) {
+            showNotification({ message: 'Missing file and link!' , alert });
+            return;
+        } 
+
+       
         try {
             const response = await competitionService.postCompetitionSubmission(competitionId, data);
             await handleResponse(response);
@@ -51,9 +78,10 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
                 option: 'success',
             });
         } catch (err) {
-            showNotification({ message: err.nonFieldErrors[0], alert });
+            showNotification({ message: 'Sorry we have problems with our server, please contact our support' , alert });
         }
         setCurrentFileList([]);
+        setCurrentLink("");
     };
 
     return (
@@ -61,11 +89,17 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
             <RowStyled>
                 <ColStyled>
                     <Form.Item>
-                        <UploadSubmission
+                        {competition.type === "CSV" ? <UploadSubmission
                             setCurrentFileList={setCurrentFileList}
                             currentFileList={currentFileList}
                             acceptType={competition.type}
-                        />
+                        /> : null  } 
+                    </Form.Item>
+                    <Form.Item>
+                     {competition.type === "PDF" ?   <div>
+                        <p>Upload a link for your solution</p>
+                        <input id="solution-url" type="url" onChange={handleChange}/>
+                        </div> : null  } 
                     </Form.Item>
                 </ColStyled>
                 <ColStyled>
