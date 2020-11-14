@@ -47,11 +47,22 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
       
         const teamId = decodeToken(user.token).user_id;
 
-        const data = {
-            team: teamId,
-            file: file ? file.originFileObj : null,
-            link: currentLink,
-        };
+
+        let data;
+
+        if (file) {
+            data = {
+                team: teamId,
+                link: currentLink,
+                file: file ? file.originFileObj : null,
+            };
+        } else {
+            data = {
+                team: teamId,
+                link: currentLink,
+            };
+        }
+       
         
 
         try {
