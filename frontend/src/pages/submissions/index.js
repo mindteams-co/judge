@@ -38,7 +38,7 @@ const columns = [
         dataIndex: 'link',
         key: 'link',
         width: '15%',
-        render: (text, record) => <a href={text}>text</a>,
+        render: (text, record) => <a href={text} target="_blank">Link</a>,
     },
     {
         title: 'Status',
