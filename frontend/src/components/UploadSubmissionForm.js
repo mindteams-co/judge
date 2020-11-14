@@ -62,8 +62,6 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
                 link: currentLink,
             };
         }
-       
-        
 
         try {
             const response = await competitionService.postCompetitionSubmission(competitionId, data);
