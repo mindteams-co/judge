@@ -89,15 +89,17 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
             <RowStyled>
                 <ColStyled>
                     <Form.Item>
-                        <UploadSubmission
+                        {competition.type === "CSV" ? <UploadSubmission
                             setCurrentFileList={setCurrentFileList}
                             currentFileList={currentFileList}
                             acceptType={competition.type}
-                        />
+                        /> : null  } 
                     </Form.Item>
                     <Form.Item>
-                        <p>Upload a link for your solution (not for csv's):</p>
+                     {competition.type === "PDF" ?   <div>
+                        <p>Upload a link for your solution</p>
                         <input id="solution-url" type="url" onChange={handleChange}/>
+                        </div> : null  } 
                     </Form.Item>
                 </ColStyled>
                 <ColStyled>
