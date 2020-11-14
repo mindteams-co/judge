@@ -63,11 +63,9 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
         }
 
         if (!data.file && data.link.length === 0) {
-            showNotification({ message: 'Sorry we have problems with our server, please contact our support' , alert });
+            showNotification({ message: 'Missing file and link!' , alert });
             return;
         } 
-
-
 
        
         try {
