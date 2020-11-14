@@ -19,7 +19,7 @@ class SubmissionPdfSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Submission
-        fields = ["id", "team", "file", "created_at"]
+        fields = ["id", "team", "file", "created_at", "link"]
 
 
 class SubmissionJudgeSerializer(serializers.ModelSerializer):
@@ -50,8 +50,7 @@ class SubmissionJudgeSerializer(serializers.ModelSerializer):
 class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Submission
-        fields = ["id", "team", "file"]
-
+        fields = ["id", "team", "file", "link"]
     default_error_messages = {
         "one_submission_every_15_minutes": "You can send one submission every 15 minutes."
     }
@@ -59,7 +58,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         last_submission = Submission.objects.filter(team=attrs['team'], competition=self.context["competition"]).order_by("-created_at").first()
         if last_submission:
-            if timezone.now() - timedelta(minutes=15) < last_submission.created_at:
+            if timezone.now() - timedelta(minutes=0) < last_submission.created_at:
                 self.fail("one_submission_every_15_minutes")
 
         return super().validate(attrs)
@@ -97,5 +96,5 @@ class TeamSubmissionsReadOnlySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Submission
-        fields = ["id", "score", "competition", "file", "created_at", "status", "judgesubmissionscore_set"]
+        fields = ["id", "score", "competition", "file", "created_at", "status", "judgesubmissionscore_set", "link"]
         read_only_fields = fields

@@ -55,10 +55,11 @@ class Submission(models.Model):
 
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="submissions")
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
-    file = models.FileField(upload_to=csv_directory_path)
+    file = models.FileField(upload_to=csv_directory_path, blank=True, null=True)
     score = models.FloatField(null=True)
     status = models.CharField(max_length=18, choices=STATUSES)
     created_at = models.DateTimeField(auto_now_add=True)
+    link = models.URLField(max_length=512, null=True, blank=True)
 
     def __str__(self):
         return f"{self.team}, {self.competition}, {self.score}"
