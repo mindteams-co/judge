@@ -83,7 +83,7 @@ const UploadSubmissionForm = ({ competitionId, user }) => {
                     </Form.Item>
                     <Form.Item>
                         <p>Upload a link for your solution:</p>
-                        <input type="url" onChange={handleChange} style="min-width: 400px"/>
+                        <input type="url" onChange={handleChange}/>
                     </Form.Item>
                 </ColStyled>
                 <ColStyled>
